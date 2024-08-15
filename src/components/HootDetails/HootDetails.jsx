@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import hootService from "../../services/hootService";
+import AuthorDate from "../common/AuthorDate";
 
 
 const HootDetails = (props) => {
@@ -25,10 +26,7 @@ const HootDetails = (props) => {
       <header>
         <p>{hoot.category.toUpperCase()}</p>
         <h1>{hoot.title}</h1>
-        <p>
-          {hoot.author.username} posted on &nbsp;
-          {new Date(hoot.createdAt).toLocaleDateString()}
-        </p>
+        <AuthorDate name={hoot.author.username} date={hoot.createdAt}/>
       </header>
       <p>{hoot.text}</p>
       <section>

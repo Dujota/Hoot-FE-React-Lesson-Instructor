@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import AuthorDate from '../common/AuthorDate';
 
 const HootList = ({hoots}) => {
   if (!hoots.length) return <main>Loading...</main>;
@@ -9,10 +10,7 @@ const HootList = ({hoots}) => {
           <article>
             <header>
               <h2>{hoot.title}</h2>
-              <p>
-                {hoot?.author?.username ?? "Anonymous"} posted on
-                {new Date(hoot.createdAt).toLocaleDateString()}
-              </p>
+              <AuthorDate name={hoot?.author?.username ?? "Anonymous"} date={hoot.createdAt}/>
             </header>
             <p>{hoot.text}</p>
           </article>
