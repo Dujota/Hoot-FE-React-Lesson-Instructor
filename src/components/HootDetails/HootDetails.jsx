@@ -1,7 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+
+// Services
 import hootService from "../../services/hootService";
+import commentService from "../../services/commentService";
+
+// Components
 import AuthorDate from "../common/AuthorDate";
+import CommentForm from '../CommentForm/CommentForm';
 
 
 const HootDetails = (props) => {
@@ -16,6 +22,14 @@ const HootDetails = (props) => {
     getHoot()
   },[hootId])
 
+  const handleAddComment = async (formData) => {
+    const newComment = await commentService.create(hootId, formData)
+
+    const copyHoot = {...hoot}
+    copyHoot.comments.push(newComment)
+
+    setHoot(copyHoot)
+  }
 
   if(!hoot){
     return <main><h3>Loading...</h3></main>
@@ -31,6 +45,7 @@ const HootDetails = (props) => {
       <p>{hoot.text}</p>
       <section>
         <h2>Comments</h2>
+        <CommentForm handleAddComment={handleAddComment}/>
         {!hoot.comments.length && <p>There are no comments.</p>}
 
         {hoot.comments.map((comment) => (
