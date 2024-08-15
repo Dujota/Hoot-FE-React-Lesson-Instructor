@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import authService from './services/authService';
+import hootService from './services/hootService';
 
 // Components
 import NavBar from './components/NavBar/NavBar';
@@ -12,6 +13,18 @@ import HootList from './components/HootList/HootList';
 
 const App = () => {
   const [user, setUser] = useState(authService.getUser());
+  const [hoots, setHoots] = useState([]);
+
+  useEffect(()=>{
+    async function getHoots (){
+      const hootsData = await hootService.index()
+      setHoots(hootsData)
+    }
+    if(user){
+      // fetch the hoots
+      getHoots()
+    }
+  }, [user])
 
   const handleSignout = () => {
     authService.signout();
@@ -26,7 +39,7 @@ const App = () => {
           // Protected Routes:
           <>
             <Route path="/" element={<Dashboard user={user} />} />
-            <Route path="/hoots" element={<HootList />} />
+            <Route path="/hoots" element={<HootList hoots={hoots}/>} />
           </>
         ) : (
             // Public Route:
