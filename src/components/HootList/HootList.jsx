@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 
 const HootList = ({hoots}) => {
+  if (!hoots.length) return <main>Loading...</main>;
+
   return <main>
       {
         hoots.map((hoot)=> <Link key={hoot._id} to={`/hoots/${hoot._id}`}>
