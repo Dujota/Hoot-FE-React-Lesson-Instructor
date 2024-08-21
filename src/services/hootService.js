@@ -36,4 +36,18 @@ const create = async (formData) => {
   return res.json()
 }
 
-export default { index, show, create };
+const deleteHoot = async (hootId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${hootId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export default { index, show, create, delete: deleteHoot };
